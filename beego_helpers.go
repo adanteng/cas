@@ -9,11 +9,16 @@ import (
 
 // 这里仅封装了userName, 如果需要其他信息可以后续添加
 type BeegoCASData struct {
-	userName string
+	userName    string
+	displayName string
 }
 
 func (bcd *BeegoCASData) GetUserName() string {
 	return bcd.userName
+}
+
+func (bcd *BeegoCASData) GetDisplayName() string {
+	return bcd.displayName
 }
 
 // http.Handler的ServeHTTP方法封装在beego内部，cas.v1仅对外部开放ServeHTTP(上面的方法)，不满足需求
@@ -47,7 +52,8 @@ func ServeBeego(w http.ResponseWriter, r *http.Request, c *Client) *BeegoCASData
 	}
 
 	return &BeegoCASData{
-		userName: Username(r),
+		userName:    Username(r),
+		displayName: Attributes(r).Get("displayName"),
 	}
 }
 
