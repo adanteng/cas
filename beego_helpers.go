@@ -3,6 +3,7 @@ package cas
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 
 	"github.com/golang/glog"
 )
@@ -51,9 +52,10 @@ func ServeBeego(w http.ResponseWriter, r *http.Request, c *Client) *BeegoCASData
 		return nil
 	}
 
+	displayName, _ := url.QueryUnescape(Attributes(r).Get("displayName"))
 	return &BeegoCASData{
 		userName:    Username(r),
-		displayName: Attributes(r).Get("displayName"),
+		displayName: displayName,
 	}
 }
 
